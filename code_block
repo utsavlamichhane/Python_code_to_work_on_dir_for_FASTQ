@@ -1,0 +1,33 @@
+import os
+import shutil
+
+# Define the source directory as the current directory and the target directory
+source_dir = os.getcwd()
+target_dir = os.path.join(source_dir, 'target_directory')
+
+# Create the target directory if it doesn't exist
+if not os.path.exists(target_dir):
+    os.makedirs(target_dir)
+
+# Walk through the source directory
+for dirpath, dirnames, filenames in os.walk(source_dir):
+    for filename in filenames:
+        # Check if the file has a .fastq.gz extension
+        if filename.endswith('.fastq.gz'):
+            # Define the full path for both source and target
+  
+            source_file = os.path.join(dirpath, filename)
+            target_file = os.path.join(target_dir, filename)
+
+            # Check if the file already exists in the target directory
+            # If it does, avoid overwriting by renaming the file being moved
+            counter = 1
+            while os.path.exists(target_file):
+                base, ext = os.path.splitext(filename)
+                target_file = os.path.join(target_dir, f"{base}_{counter}.fastq.gz")
+                counter += 1
+
+            # Move the file
+            shutil.move(source_file, target_file)
+
+print("All .fastq.gz files have been moved to the target directory.")
