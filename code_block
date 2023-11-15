@@ -15,17 +15,8 @@ for dirpath, dirnames, filenames in os.walk(source_dir):
         # Check if the file has a .fastq.gz extension
         if filename.endswith('.fastq.gz'):
             # Define the full path for both source and target
-  
             source_file = os.path.join(dirpath, filename)
             target_file = os.path.join(target_dir, filename)
-
-            # Check if the file already exists in the target directory
-            # If it does, avoid overwriting by renaming the file being moved
-            counter = 1
-            while os.path.exists(target_file):
-                base, ext = os.path.splitext(filename)
-                target_file = os.path.join(target_dir, f"{base}_{counter}.fastq.gz")
-                counter += 1
 
             # Move the file
             shutil.move(source_file, target_file)
